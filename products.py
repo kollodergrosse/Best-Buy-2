@@ -68,3 +68,38 @@ class Product:
             raise ValueError("Error! Quantity is too large")
 
         return total
+
+
+class NonStockedProducts(Product):
+    def __init__(self, name, price):
+        super().__init__(name, price, quantity=0)
+
+    def buy(self, quantity):
+        if quantity < 0:
+            raise ValueError("Product Quantity can't be negative")
+
+        # Da es nicht gelagert wird, entfällt die Bestandsprüfung und -reduzierung.
+        return quantity * self.price
+
+    def show(self):
+        super().show()
+        print("   [Special Feature: Non-Stocked / Digital Product - Unlimited Availability]")
+
+
+class LimitedProduct(Product):
+    def __init__(self, name, price, quantity, max_limit):
+        super().__init__(name, price, quantity)
+        if max_limit < 0:
+            raise ValueError("Max limit can't be negative")
+        self.max_limit = max_limit
+
+    def buy(self, quantity):
+        if quantity > self.max_limit:
+            raise ValueError(f"Error! This is a limited product. Max allowed per order: {self.max_limit}")
+
+        return super().buy(quantity)
+
+    def show(self):
+        super().show()
+        print(f"   [Special Feature: Limited Product - Maximum {self.max_limit} units per order]")
+
