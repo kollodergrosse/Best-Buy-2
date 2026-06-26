@@ -2,8 +2,14 @@
 class Product:
 
     def __init__(self, name, price, quantity):
+        if name == "":
+            raise ValueError("Product name can't be empty")
         self.name = name
+        if price < 0 :
+            raise ValueError("Product price can't be negative")
         self.price = price
+        if quantity < 0:
+            raise ValueError("Product Quantity can't be negative")
         self.quantity = quantity
         self.active = True
 
